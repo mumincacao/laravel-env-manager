@@ -233,6 +233,21 @@ class EnvActionHandlerTest extends TestCase
         $this->assertFalse($isFinish);
     }
 
+    public function testCallGrepAction(): void
+    {
+        $repository = new EnvRepository(['TEST_KEY' => 'test_value']);
+        $command = new MockCommand();
+        $handler = new EnvActionHandler($repository, $command);
+
+        // Simulate user input for search keyword
+        $command->setAskResponse('TEST');
+
+        // Call the grep action
+        $isFinish = $handler->handle('grep');
+
+        $this->assertFalse($isFinish);
+    }
+
     public function testCallResetAction(): void
     {
         $repository = new EnvRepository(['TEST_KEY' => 'test_value']);

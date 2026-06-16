@@ -8,6 +8,7 @@ use Illuminate\Support\Arr;
 use Mumincacao\LaravelEnvManager\Actions\ChangesAction;
 use Mumincacao\LaravelEnvManager\Actions\DeleteAction;
 use Mumincacao\LaravelEnvManager\Actions\FinishAction;
+use Mumincacao\LaravelEnvManager\Actions\GrepAction;
 use Mumincacao\LaravelEnvManager\Actions\HelpAction;
 use Mumincacao\LaravelEnvManager\Actions\ListAction;
 use Mumincacao\LaravelEnvManager\Actions\ResetAction;
@@ -25,6 +26,7 @@ class EnvActionHandler
         Actions::Changes->value => ChangesAction::class,
         Actions::Delete->value => DeleteAction::class,
         Actions::Finish->value => FinishAction::class,
+        Actions::Grep->value => GrepAction::class,
         Actions::Help->value => HelpAction::class,
         Actions::List->value => ListAction::class,
         Actions::Reset->value => ResetAction::class,

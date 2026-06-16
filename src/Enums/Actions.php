@@ -9,6 +9,7 @@ enum Actions: string
     case Help = 'help';
     case List = 'list';
     case Changes = 'changes';
+    case Grep = 'grep';
     case Set = 'set';
     case Delete = 'delete';
     case Reset = 'reset';
