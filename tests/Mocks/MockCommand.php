@@ -14,11 +14,20 @@ class MockCommand implements CommandProxy
      */
     private array $messages = [];
 
-    private ?string $askResponse = null;
+    /**
+     * @var list<?string>
+     */
+    private array $askResponse = [];
 
-    private bool $confirmationResponse = false;
+    /**
+     * @var list<bool>
+     */
+    private array $confirmationResponse = [];
 
-    private ?string $anticipateResponse = null;
+    /**
+     * @var list<?string>
+     */
+    private array $anticipateResponse = [];
 
     /**
      * @var int|callable
@@ -49,21 +58,21 @@ class MockCommand implements CommandProxy
     {
         $this->messages['ask'][] = $question;
 
-        return $this->askResponse ?: "Asked: {$question}";
+        return array_shift($this->askResponse) ?? "Asked: {$question}";
     }
 
     public function confirm(string $question)
     {
         $this->messages['confirm'][] = $question;
 
-        return $this->confirmationResponse;
+        return array_shift($this->confirmationResponse) ?? false;
     }
 
     public function anticipate(string $question, array $choices)
     {
         $this->messages['anticipate'][] = $question;
 
-        return $this->anticipateResponse ?: "Anticipated: {$question} with choices " . implode(', ', $choices);
+        return array_shift($this->anticipateResponse) ?? "Anticipated: {$question} with choices " . implode(', ', $choices);
     }
 
     public function fail(Throwable|string|null $exception = null)
@@ -80,17 +89,17 @@ class MockCommand implements CommandProxy
 
     public function setAskResponse(?string $response): void
     {
-        $this->askResponse = $response;
+        $this->askResponse[] = $response;
     }
 
     public function setConfirmationResponse(bool $response): void
     {
-        $this->confirmationResponse = $response;
+        $this->confirmationResponse[] = $response;
     }
 
     public function setAnticipateResponse(?string $response): void
     {
-        $this->anticipateResponse = $response;
+        $this->anticipateResponse[] = $response;
     }
 
     public function setCallResponse(int|callable $response): void
