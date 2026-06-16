@@ -32,10 +32,11 @@ class ActionListTest extends ActionTest
 
         $this->assertFalse($isFinish);
         $this->assertContains('Current environment variables:', $this->getMessages('info'));
-        $this->assertContains('-   VAR1=value1', $this->getMessages('line'));
-        $this->assertContains('- D VAR2= (original: value2)', $this->getMessages('error'));
-        $this->assertContains('- M VAR3=value3_modified (original: value3)', $this->getMessages('warn'));
-        $this->assertContains('- A VAR4=value4', $this->getMessages('info'));
+        $this->assertContains('  VAR1=value1', $this->getMessages('line'));
+        $this->assertContains('- VAR2=value2', $this->getMessages('error'));
+        $this->assertContains('- VAR3=value3', $this->getMessages('error'));
+        $this->assertContains('+ VAR3=value3_modified', $this->getMessages('info'));
+        $this->assertContains('+ VAR4=value4', $this->getMessages('info'));
     }
 
     public function testEmptyRepository(): void
