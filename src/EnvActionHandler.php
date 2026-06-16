@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Mumincacao\LaravelEnvManager;
 
 use Illuminate\Support\Arr;
+use Mumincacao\LaravelEnvManager\Actions\ChangesAction;
 use Mumincacao\LaravelEnvManager\Actions\DeleteAction;
 use Mumincacao\LaravelEnvManager\Actions\FinishAction;
 use Mumincacao\LaravelEnvManager\Actions\HelpAction;
@@ -21,6 +22,7 @@ use Mumincacao\LaravelEnvManager\Enums\Actions;
 class EnvActionHandler
 {
     private const ACTION_MAP = [
+        Actions::Changes->value => ChangesAction::class,
         Actions::Delete->value => DeleteAction::class,
         Actions::Finish->value => FinishAction::class,
         Actions::Help->value => HelpAction::class,

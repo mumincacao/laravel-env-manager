@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Mumincacao\LaravelEnvManager\tests\Unit;
 
+use Mumincacao\LaravelEnvManager\Actions\ChangesAction;
 use Mumincacao\LaravelEnvManager\Actions\DeleteAction;
 use Mumincacao\LaravelEnvManager\Actions\FinishAction;
 use Mumincacao\LaravelEnvManager\Actions\HelpAction;
@@ -24,6 +25,7 @@ use PHPUnit\Framework\TestCase;
 #[UsesClass(FinishAction::class)]
 #[UsesClass(HelpAction::class)]
 #[UsesClass(ListAction::class)]
+#[UsesClass(ChangesAction::class)]
 #[UsesClass(ResetAction::class)]
 #[UsesClass(SetAction::class)]
 class EnvActionHandlerTest extends TestCase
@@ -38,6 +40,7 @@ class EnvActionHandlerTest extends TestCase
         $this->assertArrayHasKey('finish', $descriptions);
         $this->assertArrayHasKey('help', $descriptions);
         $this->assertArrayHasKey('list', $descriptions);
+        $this->assertArrayHasKey('changes', $descriptions);
         $this->assertArrayHasKey('reset', $descriptions);
         $this->assertArrayHasKey('set', $descriptions);
 
@@ -214,6 +217,18 @@ class EnvActionHandlerTest extends TestCase
 
         // Call the list action
         $isFinish = $handler->handle('list');
+
+        $this->assertFalse($isFinish);
+    }
+
+    public function testCallChangesAction(): void
+    {
+        $repository = new EnvRepository(['TEST_KEY' => 'test_value']);
+        $command = new MockCommand();
+        $handler = new EnvActionHandler($repository, $command);
+
+        // Call the changes action
+        $isFinish = $handler->handle('changes');
 
         $this->assertFalse($isFinish);
     }

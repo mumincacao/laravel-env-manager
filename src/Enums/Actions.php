@@ -8,6 +8,7 @@ enum Actions: string
 {
     case Help = 'help';
     case List = 'list';
+    case Changes = 'changes';
     case Set = 'set';
     case Delete = 'delete';
     case Reset = 'reset';
