@@ -79,18 +79,27 @@ class EnvActionHandlerTest extends TestCase
     public function testAskMethod(): void
     {
         $command = new MockCommand();
+        $command->setAskResponse('Test Taro');
+        $command->setAskResponse('Fine, thank you.');
         $handler = new EnvActionHandler(new EnvRepository([]), $command);
         $response = $handler->ask('What is your name?');
 
-        $this->assertSame('Asked: What is your name?', $response);
+        $this->assertSame('Test Taro', $response);
         $this->assertCount(1, $command->getMessages('ask'));
         $this->assertContains('What is your name?', $command->getMessages('ask'));
 
         $newResponse = $handler->ask('How are you?');
-        $this->assertSame('Asked: How are you?', $newResponse);
+        $this->assertSame('Fine, thank you.', $newResponse);
         $this->assertCount(2, $command->getMessages('ask'));
         $this->assertContains('What is your name?', $command->getMessages('ask'));
         $this->assertContains('How are you?', $command->getMessages('ask'));
+
+        $otherResponse = $handler->ask('What is your favorite color?');
+        $this->assertNull($otherResponse);
+        $this->assertCount(3, $command->getMessages('ask'));
+        $this->assertContains('What is your name?', $command->getMessages('ask'));
+        $this->assertContains('How are you?', $command->getMessages('ask'));
+        $this->assertContains('What is your favorite color?', $command->getMessages('ask'));
     }
 
     public function testConfirmMethod(): void
@@ -116,18 +125,27 @@ class EnvActionHandlerTest extends TestCase
     public function testAnticipateMethod(): void
     {
         $command = new MockCommand();
+        $command->setAnticipateResponse('Option 1');
+        $command->setAnticipateResponse('Red');
         $handler = new EnvActionHandler(new EnvRepository([]), $command);
         $response = $handler->anticipate('Choose an option:', ['Option 1', 'Option 2']);
 
-        $this->assertSame('Anticipated: Choose an option: with choices Option 1, Option 2', $response);
+        $this->assertSame('Option 1', $response);
         $this->assertCount(1, $command->getMessages('anticipate'));
         $this->assertContains('Choose an option:', $command->getMessages('anticipate'));
 
         $newResponse = $handler->anticipate('Select a color:', ['Red', 'Green', 'Blue']);
-        $this->assertSame('Anticipated: Select a color: with choices Red, Green, Blue', $newResponse);
+        $this->assertSame('Red', $newResponse);
         $this->assertCount(2, $command->getMessages('anticipate'));
         $this->assertContains('Choose an option:', $command->getMessages('anticipate'));
         $this->assertContains('Select a color:', $command->getMessages('anticipate'));
+
+        $otherResponse = $handler->anticipate('Pick a fruit:', ['Apple', 'Banana', 'Cherry']);
+        $this->assertNull($otherResponse);
+        $this->assertCount(3, $command->getMessages('anticipate'));
+        $this->assertContains('Choose an option:', $command->getMessages('anticipate'));
+        $this->assertContains('Select a color:', $command->getMessages('anticipate'));
+        $this->assertContains('Pick a fruit:', $command->getMessages('anticipate'));
     }
 
     public function testFailMethod(): void

@@ -75,6 +75,20 @@ class ActionGrepTest extends ActionTest
         $this->assertContains('  VAR1=value1', $this->getMessages('line'));
     }
 
+    public function testNullKeyword(): void
+    {
+        $handler = $this->createHandler(['VAR1' => 'value1']);
+        $this->setAskResponse(null);
+        $this->setAskResponse('VAR'); // Provide a valid keyword after the first null input
+
+        $isFinish = $handler->handle('grep');
+
+        $this->assertFalse($isFinish);
+        $this->assertContains('Search word cannot be empty. Please enter again.', $this->getMessages('error'));
+        $this->assertContains('Matching environment variables:', $this->getMessages('info'));
+        $this->assertContains('  VAR1=value1', $this->getMessages('line'));
+    }
+
     public static function searchTypeProvider(): array
     {
         return [

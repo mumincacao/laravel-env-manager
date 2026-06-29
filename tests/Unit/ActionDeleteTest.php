@@ -43,4 +43,15 @@ class ActionDeleteTest extends ActionTest
         $this->assertTrue($this->repository->has('EXISTING_VAR'));
         $this->assertContains("Variable 'NON_EXISTING_VAR' does not exist.", $this->getMessages('error'));
     }
+
+    public function testDeleteNullVariable(): void
+    {
+        $handler = $this->createHandler(['EXISTING_VAR' => 'value']);
+        $this->setAnticipateResponse(null);
+        $isFinish = $handler->handle('delete');
+
+        $this->assertFalse($isFinish);
+        $this->assertTrue($this->repository->has('EXISTING_VAR'));
+        $this->assertContains('Variable name cannot be empty.', $this->getMessages('error'));
+    }
 }

@@ -16,8 +16,13 @@ class DeleteAction extends Action
     public function execute(): void
     {
         $name = strtoupper(
-            $this->handler->anticipate('Enter delete variable name', array_keys($this->repository->all()))
+            $this->handler->anticipate('Enter delete variable name', array_keys($this->repository->all())) ?? ''
         );
+        if ($name === '') {
+            $this->handler->error('Variable name cannot be empty.');
+
+            return;
+        }
         if ($this->repository->has($name) === false) {
             $this->handler->error("Variable '{$name}' does not exist.");
 
