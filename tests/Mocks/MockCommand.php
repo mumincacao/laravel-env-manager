@@ -58,7 +58,7 @@ class MockCommand implements CommandProxy
     {
         $this->messages['ask'][] = $question;
 
-        return array_shift($this->askResponse) ?? "Asked: {$question}";
+        return array_shift($this->askResponse);
     }
 
     public function confirm(string $question)
@@ -72,7 +72,7 @@ class MockCommand implements CommandProxy
     {
         $this->messages['anticipate'][] = $question;
 
-        return array_shift($this->anticipateResponse) ?? "Anticipated: {$question} with choices " . implode(', ', $choices);
+        return array_shift($this->anticipateResponse);
     }
 
     public function fail(Throwable|string|null $exception = null)

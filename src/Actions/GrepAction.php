@@ -36,7 +36,7 @@ class GrepAction extends ListAction
     {
         while (true) {
             $keyword = $this->handler->ask('Enter search word:');
-            if ($keyword !== '') {
+            if ($keyword !== '' && $keyword !== null) {
                 break;
             }
             $this->handler->error('Search word cannot be empty. Please enter again.');

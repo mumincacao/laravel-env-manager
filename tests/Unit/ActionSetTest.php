@@ -60,4 +60,43 @@ class ActionSetTest extends ActionTest
             $this->getMessages('error')
         );
     }
+
+    public function testNullKey(): void
+    {
+        $handler = $this->createHandler();
+        $this->setAnticipateResponse(null);
+        $isFinish = $handler->handle('set');
+
+        $this->assertFalse($isFinish);
+        $this->assertContains(
+            "Invalid variable name. Allowed only uppercase letters, numbers, and underscores.",
+            $this->getMessages('error')
+        );
+    }
+
+    public function testEmptyValue(): void
+    {
+        $handler = $this->createHandler();
+        $this->setAnticipateResponse('TEST_VAR');
+        $this->setAskResponse('');
+
+        $isFinish = $handler->handle('set');
+
+        $this->assertFalse($isFinish);
+        $this->assertTrue($this->repository->has('TEST_VAR'));
+        $this->assertSame('', $this->repository->get('TEST_VAR'));
+    }
+
+    public function testNullValue(): void
+    {
+        $handler = $this->createHandler();
+        $this->setAnticipateResponse('TEST_VAR');
+        $this->setAskResponse(null);
+
+        $isFinish = $handler->handle('set');
+
+        $this->assertFalse($isFinish);
+        $this->assertTrue($this->repository->has('TEST_VAR'));
+        $this->assertNull($this->repository->get('TEST_VAR'));
+    }
 }

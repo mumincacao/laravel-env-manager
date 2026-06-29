@@ -36,7 +36,7 @@ abstract class ActionTest extends TestCase
         return new EnvActionHandler($this->repository, $this->command);
     }
 
-    protected function setAskResponse(string $response): void
+    protected function setAskResponse(?string $response): void
     {
         $this->command->setAskResponse($response);
     }
@@ -46,7 +46,7 @@ abstract class ActionTest extends TestCase
         $this->command->setConfirmationResponse($response);
     }
 
-    protected function setAnticipateResponse(string $response): void
+    protected function setAnticipateResponse(?string $response): void
     {
         $this->command->setAnticipateResponse($response);
     }

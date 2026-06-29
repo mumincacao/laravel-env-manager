@@ -29,7 +29,7 @@ interface CommandProxy
     public function error(string $message);
 
     /**
-     * @return string
+     * @return string|null
      */
     public function ask(string $question);
 
@@ -39,7 +39,7 @@ interface CommandProxy
     public function confirm(string $question);
 
     /**
-     * @return string
+     * @return string|null
      */
     public function anticipate(string $question, array $choices);
 
